@@ -50,6 +50,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         guard let planeAnchor = anchor as? ARPlaneAnchor else {return}
         
+        //let planeNode = createPlane(withPlaneAnchor: planeAnchor)
         let planeNode = createPlane(withPlaneAnchor: planeAnchor)
         
         node.addChildNode(planeNode)
@@ -59,21 +60,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     //MARK: - Plane Rendering Methods
     
     func createPlane(withPlaneAnchor planeAnchor: ARPlaneAnchor) ->SCNNode {
-        //definiamo il piano e stimo a tttenti che va definito per x e z NON y
-        let plane = SCNPlane(width: CGFloat(planeAnchor.extent.x), height: CGFloat(planeAnchor.extent.z))
         
-        let planeNode = SCNNode()
-        planeNode.position = SCNVector3(x:planeAnchor.center.x, y:0, z:planeAnchor.center.z)
-        //il piano viene considerato cmq in vertticale va trasformato in orizzontale
-        //Float.pi/2 sono 90° in radianti, 1,0,0 invece significa che lo facciamo ruotare attorno all'asse x
-        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
-        
-        let gridMaterial = SCNMaterial()
-        gridMaterial.diffuse.contents = UIImage(named:"art.scnassets/grid.png")
-        
-        plane.materials = [gridMaterial]
-        planeNode.geometry = plane
-        
+        let myDicePlane = DicePlane(planeX: CGFloat(planeAnchor.extent.x), planeZ: CGFloat(planeAnchor.extent.z), planeAnchorX: planeAnchor.center.x, planeAnchorZ: planeAnchor.center.z)
+        let planeNode = myDicePlane.planeNode
         return planeNode
     }
     

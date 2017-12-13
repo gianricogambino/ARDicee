@@ -13,6 +13,7 @@
 		70147F8D1FE0144C0005A626 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70147F8B1FE0144C0005A626 /* Main.storyboard */; };
 		70147F8F1FE0144C0005A626 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70147F8E1FE0144C0005A626 /* Assets.xcassets */; };
 		70147F921FE0144C0005A626 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70147F901FE0144C0005A626 /* LaunchScreen.storyboard */; };
+		70BC1F9B1FE16182008FDB1C /* DicePlane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC1F9A1FE16182008FDB1C /* DicePlane.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		70147F8E1FE0144C0005A626 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70147F911FE0144C0005A626 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		70147F931FE0144C0005A626 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70BC1F9A1FE16182008FDB1C /* DicePlane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DicePlane.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +58,40 @@
 		70147F841FE0144C0005A626 /* ARDicee */ = {
 			isa = PBXGroup;
 			children = (
-				70147F851FE0144C0005A626 /* AppDelegate.swift */,
-				70147F891FE0144C0005A626 /* ViewController.swift */,
+				70BC1F991FE14C2C008FDB1C /* Controller */,
+				70BC1F981FE14C23008FDB1C /* View */,
+				70BC1F971FE14C12008FDB1C /* Model */,
+				70147F931FE0144C0005A626 /* Info.plist */,
+			);
+			path = ARDicee;
+			sourceTree = "<group>";
+		};
+		70BC1F971FE14C12008FDB1C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				70BC1F9A1FE16182008FDB1C /* DicePlane.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		70BC1F981FE14C23008FDB1C /* View */ = {
+			isa = PBXGroup;
+			children = (
 				70147F8B1FE0144C0005A626 /* Main.storyboard */,
 				70147F871FE0144C0005A626 /* art.scnassets */,
 				70147F8E1FE0144C0005A626 /* Assets.xcassets */,
 				70147F901FE0144C0005A626 /* LaunchScreen.storyboard */,
-				70147F931FE0144C0005A626 /* Info.plist */,
 			);
-			path = ARDicee;
+			path = View;
+			sourceTree = "<group>";
+		};
+		70BC1F991FE14C2C008FDB1C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				70147F851FE0144C0005A626 /* AppDelegate.swift */,
+				70147F891FE0144C0005A626 /* ViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,6 +167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70BC1F9B1FE16182008FDB1C /* DicePlane.swift in Sources */,
 				70147F8A1FE0144C0005A626 /* ViewController.swift in Sources */,
 				70147F861FE0144C0005A626 /* AppDelegate.swift in Sources */,
 			);
