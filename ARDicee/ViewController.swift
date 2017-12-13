@@ -43,34 +43,44 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.session.pause()
     }
     
+    //MARK: - ARSCNViewDelegate Methods
+    
     // metodo lanciato in automatico quando diciamo che la configuration deve avere il plane detection
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        if anchor is ARPlaneAnchor {
-            print("identificato piano orizzontale")
-            
-            let planeAnchor = anchor as! ARPlaneAnchor
-            
-            //definiamo il piano e stimo a tttenti che va definito per x e z NON y
-            let plane = SCNPlane(width: CGFloat(planeAnchor.extent.x), height: CGFloat(planeAnchor.extent.z))
-            
-            let planeNode = SCNNode()
-            planeNode.position = SCNVector3(x:planeAnchor.center.x, y:0, z:planeAnchor.center.z)
-            //il piano viene considerato cmq in vertticale va trasformato in orizzontale
-            //Float.pi/2 sono 90° in radianti, 1,0,0 invece significa che lo facciamo ruotare attorno all'asse x
-            planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
-            
-            let gridMaterial = SCNMaterial()
-            gridMaterial.diffuse.contents = UIImage(named:"art.scnassets/grid.png")
-            
-            plane.materials = [gridMaterial]
-            planeNode.geometry = plane
-            
-            node.addChildNode(planeNode)
-        } else {
-            return
-        }
+        
+        guard let planeAnchor = anchor as? ARPlaneAnchor else {return}
+        
+        let planeNode = createPlane(withPlaneAnchor: planeAnchor)
+        
+        node.addChildNode(planeNode)
+
     }
-     //dopo aver individuato un piano rileviamo un touch da parte dell'utente
+    
+    //MARK: - Plane Rendering Methods
+    
+    func createPlane(withPlaneAnchor planeAnchor: ARPlaneAnchor) ->SCNNode {
+        //definiamo il piano e stimo a tttenti che va definito per x e z NON y
+        let plane = SCNPlane(width: CGFloat(planeAnchor.extent.x), height: CGFloat(planeAnchor.extent.z))
+        
+        let planeNode = SCNNode()
+        planeNode.position = SCNVector3(x:planeAnchor.center.x, y:0, z:planeAnchor.center.z)
+        //il piano viene considerato cmq in vertticale va trasformato in orizzontale
+        //Float.pi/2 sono 90° in radianti, 1,0,0 invece significa che lo facciamo ruotare attorno all'asse x
+        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
+        
+        let gridMaterial = SCNMaterial()
+        gridMaterial.diffuse.contents = UIImage(named:"art.scnassets/grid.png")
+        
+        plane.materials = [gridMaterial]
+        planeNode.geometry = plane
+        
+        return planeNode
+    }
+    
+    
+    //MARK: - Dice Rendering Methods
+
+    //dopo aver individuato un piano rileviamo un touch da parte dell'utente
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         //se rileva un tocco lo asegna alla sceneView
         if let touch = touches.first {
@@ -108,14 +118,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
-    func rollAll() {
-        if !diceArray.isEmpty {
-            for dice in diceArray {
-                roll(dice:dice)
-            }
-        }
-    }
-    
     func roll(dice:SCNNode) {
         
         //per ruotare i dadi devo ottenere due numeri casuali sull'asse x e z
@@ -124,6 +126,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let randZ = Float (arc4random_uniform(4) + 1) * (Float.pi/2)
         
         dice.runAction(SCNAction.rotateBy(x: CGFloat(randX * 3), y: 0, z: CGFloat(randZ * 3), duration: 0.5))
+    }
+    
+    func rollAll() {
+        if !diceArray.isEmpty {
+            for dice in diceArray {
+                roll(dice:dice)
+            }
+        }
     }
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
