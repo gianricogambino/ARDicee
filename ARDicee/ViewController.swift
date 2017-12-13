@@ -80,27 +80,31 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let results = sceneView.hitTest(touchLocation, types: .existingPlaneUsingExtent)
             
             if let hitResult = results.first {
-                print(hitResult)
-                // Create a new scene
-                let diceScene = SCNScene(named: "art.scnassets/diceCollada.scn")!
+                addDice(atLocation: hitResult)
+                
+            }
+        }
+    }
+    
+    func addDice(atLocation location:ARHitTestResult) {
+        // Create a new scene
+        let diceScene = SCNScene(named: "art.scnassets/diceCollada.scn")!
         
-                // Set the scene to the view
+        // Set the scene to the view
         //        sceneView.scene = scene
         
-                if let diceNode = diceScene.rootNode.childNode(withName: "Dice", recursively: true) {
-                    // qui andiamo a prendere quella posizione che viene data dalla proprietà worldTransform
-                    // sull'asse y i dadi verrebbero piantati a metà del piano quindi gli sommiamo la loro metà a y per alzarli
-                    // per fare questo usiamo la proprietà boundingSphere.radius
-                    diceNode.position = SCNVector3(x: hitResult.worldTransform.columns.3.x, y: hitResult.worldTransform.columns.3.y + diceNode.boundingSphere.radius, z: hitResult.worldTransform.columns.3.z)
-                    
-                    //aggiungo il dado all'array di dadi
-                    diceArray.append(diceNode)
-                    
-                    sceneView.scene.rootNode.addChildNode(diceNode)
-                    
-                    roll(dice: diceNode)
-                }
-            }
+        if let diceNode = diceScene.rootNode.childNode(withName: "Dice", recursively: true) {
+            // qui andiamo a prendere quella posizione che viene data dalla proprietà worldTransform
+            // sull'asse y i dadi verrebbero piantati a metà del piano quindi gli sommiamo la loro metà a y per alzarli
+            // per fare questo usiamo la proprietà boundingSphere.radius
+            diceNode.position = SCNVector3(x: location.worldTransform.columns.3.x, y: location.worldTransform.columns.3.y + diceNode.boundingSphere.radius, z: location.worldTransform.columns.3.z)
+            
+            //aggiungo il dado all'array di dadi
+            diceArray.append(diceNode)
+            
+            sceneView.scene.rootNode.addChildNode(diceNode)
+            
+            roll(dice: diceNode)
         }
     }
     
